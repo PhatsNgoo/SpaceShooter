@@ -8,9 +8,13 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] Button startBtn;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] Transform endGamePanel;
+    [SerializeField] Button retryBtn;
+    [SerializeField] TextMeshProUGUI highScoreText;
+    [SerializeField] TextMeshProUGUI lastScoreText;
 
     private void Start() {
         startBtn.onClick.AddListener(()=>StartGame());
+        retryBtn.onClick.AddListener(()=>Retry());
     }
     public void UpdateScoreText(int value)
     {
@@ -18,6 +22,22 @@ public class UIManager : Singleton<UIManager>
     }
     void StartGame()
     {
-
+        GameManager.Instance.StartGame();
+        startBtn.transform.parent.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(true);
+    }
+    public void EndGame()
+    {
+        scoreText.gameObject.SetActive(false);
+        endGamePanel.gameObject.SetActive(true);
+        highScoreText.text="High Score: "+PlayerPrefs.GetInt("HighScore", 0);
+        lastScoreText.text="Your Score: "+GameManager.Instance.GetCurrentScore();
+        GameManager.Instance.RegisterHighScore();
+    }
+    void Retry()
+    {
+        GameManager.Instance.StartGame();
+        endGamePanel.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(true);
     }
 }

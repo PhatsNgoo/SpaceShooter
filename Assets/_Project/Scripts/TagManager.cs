@@ -6,4 +6,5 @@ public class TagManager
 {
     public static string BULLET="Bullet";
     public static string ASTEROID="Asteroid";
+    public static string PLAYER="Player";
 }

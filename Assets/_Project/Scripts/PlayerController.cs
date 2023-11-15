@@ -9,10 +9,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody2D rgBody;
     [SerializeField] ObjectPooler objectPooler;
     [SerializeField] Transform bulletSpawnPoint;
-    [SerializeField] float lives;
+    [SerializeField] ParticleSystem pushFx;
+    [SerializeField] public float lives;
     [SerializeField] float moveSpeed;
     [SerializeField] float maxSpeed;
-    [Header("Fire rate per second")] float fireRate;
 
     private void Awake() {
         rgBody=GetComponent<Rigidbody2D>();
@@ -24,11 +24,16 @@ public class PlayerController : MonoBehaviour
     private void Update() {
         
         var directionForce=Camera.main.ScreenToWorldPoint(Input.mousePosition)-this.transform.position;
-        if(Input.GetKey(KeyCode.W) )
+        if(Input.GetKey(KeyCode.W) && GameManager.Instance.g_State==GameState.Playing)
         {
+            pushFx.Play();
             rgBody.AddForce(directionForce.normalized*moveSpeed);
         }
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetKey(KeyCode.S) && GameManager.Instance.g_State==GameState.Playing)
+        {
+            rgBody.AddForce(rgBody.velocity.normalized*-1*moveSpeed);
+        }
+        if(Input.GetMouseButtonDown(0)&& GameManager.Instance.g_State==GameState.Playing)
         {
             Fire();
         }
@@ -54,9 +59,22 @@ public class PlayerController : MonoBehaviour
             this.transform.position=new Vector2(this.transform.position.x,Camera.main.ViewportToWorldPoint(new Vector2(0, 1)).y);
         }
     }
+    public void CollideWithAsteroid()
+    {
+        if(lives>0)
+        {
+            lives--;
+            this.transform.position=(Vector2)Camera.main.ViewportToWorldPoint(new Vector2(0.5f,0.5f));
+            rgBody.velocity=Vector2.zero;
+        }
+        else
+        {
+            UIManager.Instance.EndGame();
+            Destroy(this.gameObject,-1);
+        }
+    }
     void Fire()
     {
-        Debug.LogError("Fired");
         var objectToFire = objectPooler.GetPooledObject(TagManager.BULLET);
         objectToFire.SetActive(true);
         objectToFire.transform.position=bulletSpawnPoint.position;

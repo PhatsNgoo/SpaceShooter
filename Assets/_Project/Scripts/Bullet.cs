@@ -30,7 +30,6 @@ public class Bullet : MonoBehaviour
     public void Shoot(Vector2 direction)
     {
         this.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
-        Debug.LogError(this.GetComponent<Rigidbody2D>().velocity);
 
     }
     void DetectingScreenEdge()
