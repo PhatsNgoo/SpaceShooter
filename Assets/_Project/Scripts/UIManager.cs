@@ -7,6 +7,7 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField] Button startBtn;
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI livesText;
     [SerializeField] Transform endGamePanel;
     [SerializeField] Button retryBtn;
     [SerializeField] TextMeshProUGUI highScoreText;
@@ -19,6 +20,11 @@ public class UIManager : Singleton<UIManager>
     public void UpdateScoreText(int value)
     {
         scoreText.text="Your score: "+value.ToString();
+    }
+    
+    public void UpdateLivesText(int value)
+    {
+        livesText.text="Lives: "+value.ToString();
     }
     void StartGame()
     {

@@ -69,8 +69,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explodeFx: {fileID: 0}
-  bulletSpeed: 5
-  lifeTime: 4
+  bulletSpeed: 9
+  lifeTime: 1
 --- !u!58 &8601774921548469458
 CircleCollider2D:
   m_ObjectHideFlags: 0

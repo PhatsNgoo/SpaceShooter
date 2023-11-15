@@ -23,6 +23,7 @@ public class GameManager : Singleton<GameManager>
     {
         player=Instantiate(playerPrefabs,(Vector2)Camera.main.ViewportToWorldPoint(new Vector2(0.5f,0.5f)),Quaternion.identity);
         player.GetComponent<PlayerController>().lives=3;
+        UIManager.Instance.UpdateLivesText(player.GetComponent<PlayerController>().lives);
         ClearRemainingAsterroid();
         waveCount=0;
         score=0;

@@ -63,6 +63,7 @@ public class Asteroid : MonoBehaviour
         else if(other.gameObject.CompareTag(TagManager.BULLET))
         {
             Explode();
+            AudioManager.Instance.PlaySound2D("Explode");
             this.gameObject.SetActive(false);
             GameManager.Instance.UpdateScore();
         }
